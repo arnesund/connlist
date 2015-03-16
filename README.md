@@ -7,8 +7,17 @@ When searching through firewall logs, it is often hard to get a good overview of
 
 The 'fw-regex' library (another one of my repositories) is used to extract interesting data from log lines. It is added as a submodule of this repo.
 
-Follow these steps to update the dependency to the newest version:
-```cd lib/fw-regex
+The first time you clone this repo, you need to pull down the dependency like this:
+
+```bash
+git submodule init
+git submodule update
+```
+
+Follow these steps to update the dependency to the newest version later, if needed:
+
+```bash
+cd lib/fw-regex
 git pull
 ```
 
@@ -16,7 +25,7 @@ git pull
 
 Simply pipe firewall log lines to `connlist.py` to get them summarized:
 
-```
+```bash
 $ zfgrep 80.65.59.162 test/fw.log-20150202.gz | ./connlist.py
  COUNT PROTO  FROM IP         TO IP          PORT  FIRST SEEN           LAST SEEN
     18  TCP   228.106.58.87     80.65.59.162 443   2015-02-02 07:51:09  2015-02-02 07:51:41
