@@ -2,7 +2,7 @@
 #
 # Parse firewall log messages to present a short summary of TCP+UDP connections
 #
-# Version: 2.0
+# Version: 2.1
 #
 import re, sys
 sys.path.append('lib/fw-regex')
@@ -35,15 +35,13 @@ for line in sys.stdin:
         conn = ';'.join([data['protocol'], data['src'], data['dst'], data['dport']])
 
         # Create a timestamp
-        if 'date' in data:
-            timestamp = data['date'] + ' ' + data['time']
+        if 'year' in data:
+            timestamp = '-'.join([data['year'], data['month'], data['day']]) + \
+                ' ' + data['time']
         else:
-            month = str(months.index(data['month'])+1).zfill(2)
-            if 'year' in data:
-                timestamp = data['year'] + '-' + month + '-' + data['day'].zfill(2) + ' ' + data['time']
-            else:
-                # This timestamp is incomplete, no year info makes it impossible to piece something together
-                timestamp = month + '-' + data['day'].zfill(2) + ' ' + data['time']
+            # This timestamp is incomplete, no year info makes it impossible to 
+            # piece something together. Just use month, day and time in those cases.
+            timestamp = '-'.join([data['month'], data['day']]) + ' ' + data['time']
 
         if conn in conns.keys():
             conns[conn] = conns[conn] + 1
