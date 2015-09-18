@@ -11,6 +11,9 @@ from libfwregex import get_builtconn
 months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', \
 						'Oct', 'Nov', 'Dec']
 
+# Mapping of protocol number to name
+protocols = {1: 'ICMP', 6: 'TCP', 17: 'UDP'}
+
 # List of connections and timestamps
 conns = {}
 connFirst = {}
@@ -23,10 +26,7 @@ for line in sys.stdin:
         try:
             # Convert number to name
             pn = int(data['protocol'])
-            if pn == 6:
-                data['protocol'] = 'TCP'
-            elif pn == 17:
-                data['protocol'] = 'UDP'
+            data['protocol'] = protocols[pn]
         except:
             # Uppercase protocol name
             data['protocol'] = data['protocol'].upper()
