@@ -31,6 +31,10 @@ for line in sys.stdin:
             # Uppercase protocol name
             data['protocol'] = data['protocol'].upper()
 
+        # Convert None to empty string if port number is missing (f.ex for ICMP)
+        if not data['dport']:
+            data['dport'] = ''
+
         # Create a connection hash: PROTO;FROMIP;TOIP;TOPORT
         conn = ';'.join([data['protocol'], data['src'], data['dst'], data['dport']])
 
